@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+
+<h1>The Readings</h1>
+
+<table class="table table-hover table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Author</th>
+      <th scope="col">Booktype</th>
+      <th scope="col">Status</th>
+      <th scope="col">Chapters</th>
+      <th scope="col">Genres</th>
+      <th scope="col">Tags</th>
+      <th scope="col">Id</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+{% if records %}
+	{% for record in records %}
+		<tr>
+			<td>{{ record.Title }}</td>
+			<td>{{ record.Author }}</td>
+			<td>{{ record.Booktype }}</td>
+			<td>{{ record.Status }}</td>
+			<td>{{ record.Chapters }}</td>
+			<td>{{ record.Genre }}</td>
+			<td>{{ record.Tag }}</td>
+			<td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
+		</tr>	
+	{% endfor %}
+
+{% endif %}
+
+
+  		</tbody>
+	</table>
+
+
+{% else %}
+
+<div class="col-md-6 offset-md-3">
+<h1>Login to the Libraria</h1>
+<br/>
+
+<form method="POST" action="{% url 'home' %}">
+	{% csrf_token %}
+	
+  <div class="mb-3">
+    <input type="text" class="form-control" name="username", placeholder="Username" required> 
+    
+  </div>
+  <div class="mb-3">
+    <input type="password" class="form-control" name="password", placeholder="Password" required> 
+  </div>
+
+  <button type="submit" class="btn btn-secondary">Login</button>
+
+</form>
+
+
+
+{% endif %}
+
+{% endblock %}
